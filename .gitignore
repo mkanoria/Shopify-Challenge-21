@@ -114,3 +114,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Used for local testing
+uploads/
+pic.png
+
+# Ignore config files
+config/*
