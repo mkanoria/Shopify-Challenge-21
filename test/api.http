@@ -1,0 +1,10 @@
+POST http://localhost:5000/upload HTTP/1.1
+content-type: application/json
+
+{
+    "image": "pic.png"
+}
+###
+
+GET http://localhost:5000/ HTTP/1.1
+content-type: application/json
