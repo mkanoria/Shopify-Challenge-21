@@ -4,7 +4,35 @@ content-type: application/json
 {
     "image": "pic.png"
 }
-###
 
+###
 GET http://localhost:5000/ HTTP/1.1
 content-type: application/json
+
+###
+POST http://localhost:5000/images/ HTTP/1.1
+content-type: application/json  
+
+###
+POST http://localhost:5000/user/signup HTTP/1.1
+content-type: application/json  
+
+{
+    "email": "abc12345",
+    "password": "test"
+}
+
+###
+
+# @name login
+POST http://localhost:5000/user/login HTTP/1.1
+content-type: application/json  
+
+{
+    "email": "abc123",
+    "password": "test"
+}
+
+###
+GET http://localhost:5000/test/profile?secret_token={{login.response.body.token}} HTTP/1.1
+content-type: application/json  

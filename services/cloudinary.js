@@ -3,7 +3,7 @@ const cloudinary = require("cloudinary");
 // Helper methods to handle Cloudinary Upload, Download and Delete
 
 const cloudinaryUpload = (image) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     // upload image here
     cloudinary.uploader
       .upload(image)

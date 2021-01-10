@@ -20,11 +20,7 @@ app.get("/", async (req, res) => {
 });
 
 /*
-// Get firebase config info
-const firebaseConfig = require("./config/firebase").firebaseConfig;
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+
 
 
 // Set up routes
@@ -35,9 +31,11 @@ app.use("images/", images);
 */
 
 const express = require("express");
-const firebase = require("firebase");
 const cloudinary = require("cloudinary").v2;
 const bodyParser = require("body-parser");
+const passport = require("passport");
+passport.initialize();
+require("./services/auth");
 
 const app = express();
 // body parser configuration
@@ -55,7 +53,20 @@ cloudinary.config({
 
 const { cloudinaryUpload } = require("./services/cloudinary");
 
-app.get("/", (request, response) => {
+const db = require("./services/db").db;
+const images = require("./routes/image");
+
+app.use("images/", images);
+
+app.get("/", async (request, response) => {
+  const userRef = db.collection("users").doc("alovelace");
+  const doc = await userRef.get();
+  // console.log(doc);
+  if (!doc.exists) {
+    console.log("No doc");
+  } else {
+    console.log(doc.data());
+  }
   response.json({ message: "Hey! This is your server response!" });
 });
 
@@ -67,20 +78,40 @@ app.post("/upload", (request, response) => {
   };
 
   cloudinaryUpload(data.image)
-    .then((result) => {
+    .then(async (result) => {
       console.log("Result is");
       console.log(result.id);
       console.log(result.url);
+      const docRef = db.collection("images").doc(result.id);
+
+      await docRef.set({
+        imageURL: result.url,
+      });
       response.status(200).send({
         result,
       });
     })
-    .catch((err) => {
+    .catch((error) => {
       response.status(500).send({
         message: "failure",
         error,
       });
     });
+});
+
+// Set up routes
+const user = require("./routes/user");
+
+app.use("/user", user);
+
+const secure = require("./routes/secure");
+// Plug in the JWT strategy as a middleware so only verified users can access this route.
+app.use("/test", passport.authenticate("jwt", { session: false }), secure);
+
+// Handle errors.
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({ error: err });
 });
 
 // Server running on port 5000
