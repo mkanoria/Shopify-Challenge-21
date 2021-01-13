@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { cloudinaryUpload } = require("../services/cloudinary");
+const {
+  cloudinaryUpload,
+  cloudinaryDelete,
+} = require("../services/cloudinary");
 const firebase = require("firebase");
 const db = require("../services/db").db;
 
@@ -32,8 +35,6 @@ router.post("/upload", (request, response) => {
 
       // Atomically add a new region to the "regions" array field.
       await userRef.update({
-        // apple: firebase.firestore.FieldValue.increment(16),
-        // test: db.FieldValue.arrayUnion()
         images: firebase.firestore.FieldValue.arrayUnion(res.id),
       });
       // Update the image document with the required fields
@@ -51,16 +52,11 @@ router.post("/upload", (request, response) => {
     });
 });
 
-router.post("/delete1", async (req, resp) => {
-  const u = db.collection("users").doc(req.user.email);
-  resp.send("Hello");
-});
-
 // image delete endpoint
 router.delete("/delete/:imageID", async (request, response) => {
   // collected image from a user
   const imageID = request.params.imageID;
-
+  console.log(imageID);
   // Verify that the image exists
   const userRef = db.collection("users").doc(request.user.email);
 
@@ -73,45 +69,34 @@ router.delete("/delete/:imageID", async (request, response) => {
     console.log("No images found");
   }
 
-  if (doc.data().images.includes("test")) {
-    console.log("found");
+  if (doc.data().images.includes(imageID)) {
+    // Since image exists delete the image from Firestore
+    await userRef.update({
+      images: firebase.firestore.FieldValue.arrayRemove(imageID),
+    });
+    // Delete the image document
+    const res = await db.collection("images").doc("test");
+
+    console.log("Deleted from Firestore");
   } else {
-    console.log("Nope");
+    return response
+      .status(404)
+      .json({ error: "This image ID does not exist for the user" });
   }
 
-  response.send("Hello there");
-
-  // console.log(images);
-  // Then delete the image from Firestore
-
-  // const docRef = db.collection("images").doc();
-  /*
-  cloudinaryDelete(data.image)
+  cloudinaryDelete(imageID)
     .then(async (result) => {
-      // Create a new Firestore document with the Cloudinary ID
-      // const docRef = db.collection("images").doc(result.id);
-
-      // const res = {
-      //   ...result,
-      //   title: request.body.title,
-      //   tags: request.body.tags,
-      // };
-      // try {
-      //   await docRef.set(res);
-      // } catch (error) {
-      //   return res.status(400).json({ error: error.toString() });
-      // }
+      console.log(result);
       response.status(200).send({
-        Status: "Okay",
+        Status: "Deleted image",
       });
     })
     .catch((error) => {
       response.status(500).send({
-        message: "failure",
+        message: "Failure",
         error,
       });
     });
-    */
 });
 
 module.exports = router;

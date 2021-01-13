@@ -41,6 +41,7 @@ GET http://localhost:5000/profile?secret_token={{login.response.body.token}} HTT
 content-type: application/json  
 
 ###
+# @name upload
 POST http://localhost:5000/upload?secret_token={{login.response.body.token}} HTTP/1.1
 content-type: application/json  
 
@@ -51,5 +52,5 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:5000/delete/p65bnbvzlxcoukvt7uer?secret_token={{login.response.body.token}} HTTP/1.1
+DELETE http://localhost:5000/delete/{{upload.response.body.res.id}}?secret_token={{login.response.body.token}} HTTP/1.1
 content-type: application/json  

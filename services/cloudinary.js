@@ -22,7 +22,7 @@ const cloudinaryDelete = (image) => {
     cloudinary.uploader
       .destroy(image)
       .then((result) => {
-        resolve({ id: result.public_id, url: result.secure_url });
+        resolve({ result: result.result });
       })
       .catch((error) => {
         reject(error);
