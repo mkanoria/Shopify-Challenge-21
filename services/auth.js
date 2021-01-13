@@ -52,12 +52,14 @@ passport.use(
         const doc = await userRef.get();
 
         if (!doc.exists) {
+          console.log("User not found");
           return done(null, false, { message: "User not found" });
         }
         const { hashedPassword } = doc.data();
         const validate = await validatePassword(password, hashedPassword);
 
         if (!validate) {
+          console.log("Wrong password");
           return done(null, false, { message: "Wrong Password" });
         }
 
