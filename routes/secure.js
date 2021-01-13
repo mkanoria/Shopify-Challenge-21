@@ -54,7 +54,7 @@ router.post("/upload", (request, response) => {
 
 // image delete endpoint
 router.delete("/delete/:imageID", async (request, response) => {
-  // collected image from a user
+  // collecte imageID from a user
   const imageID = request.params.imageID;
   console.log(imageID);
   // Verify that the image exists
@@ -75,8 +75,8 @@ router.delete("/delete/:imageID", async (request, response) => {
       images: firebase.firestore.FieldValue.arrayRemove(imageID),
     });
     // Delete the image document
-    const res = await db.collection("images").doc("test");
-
+    const res = await db.collection("images").doc(imageID).delete();
+    console.log(res);
     console.log("Deleted from Firestore");
   } else {
     return response
@@ -97,6 +97,41 @@ router.delete("/delete/:imageID", async (request, response) => {
         error,
       });
     });
+});
+
+// image delete endpoint
+router.get("/list", async (request, response) => {
+  // Get all images for a user
+
+  const userRef = db.collection("users").doc(request.user.email);
+
+  const doc = await userRef.get();
+  if (!doc.exists) {
+    return res.status(400).json({ error: "You have no record stored" });
+  }
+  let res = { images: [] };
+
+  if (!doc.data().images) {
+    console.log("No images found");
+    return response.status(200).send({
+      ...res,
+    });
+  }
+
+  const images = doc.data().images;
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    const imageRes = await db.collection("images").doc(image).get();
+    // console.log(imageRes.data());
+    if (imageRes.exists) {
+      res.images.push(imageRes.data());
+      console.log("HERE");
+    }
+  }
+  console.log("RES", res);
+  response.status(200).send({
+    ...res,
+  });
 });
 
 module.exports = router;

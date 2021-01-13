@@ -19,9 +19,6 @@ cloudinary.config({
   api_secret: cloudinary_api_secret,
 });
 
-// Use database instance
-const db = require("./services/db").db;
-
 // Set up routes
 // const images = require("./routes/image");
 const user = require("./routes/user");
@@ -36,7 +33,7 @@ app.use("/images", passport.authenticate("jwt", { session: false }), secure);
 // app.use("images/", images);
 app.use("/user", user);
 
-app.get("/", async (request, response) => {
+app.get("/", async (_, response) => {
   response.json({ message: "Hey! The server is running!" });
 });
 

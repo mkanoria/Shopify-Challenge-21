@@ -50,3 +50,7 @@ content-type: application/json
 ###
 DELETE http://localhost:5000/images/delete/{{upload.response.body.res.id}}?secret_token={{login.response.body.token}} HTTP/1.1
 content-type: application/json  
+
+###
+GET http://localhost:5000/images/list?secret_token={{login.response.body.token}} HTTP/1.1
+content-type: application/json
