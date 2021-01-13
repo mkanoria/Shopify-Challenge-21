@@ -16,7 +16,7 @@ router.get("/profile", (req, res, next) => {
 });
 
 // image upload API
-router.post("/upload", (request, response) => {
+router.post("/", (request, response) => {
   // collected image from a user
   const data = {
     image: request.body.image,
@@ -53,7 +53,7 @@ router.post("/upload", (request, response) => {
 });
 
 // image delete endpoint
-router.delete("/delete/:imageID", async (request, response) => {
+router.delete("/:imageID", async (request, response) => {
   // collecte imageID from a user
   const imageID = request.params.imageID;
   console.log(imageID);
@@ -99,8 +99,8 @@ router.delete("/delete/:imageID", async (request, response) => {
     });
 });
 
-// image delete endpoint
-router.get("/list", async (request, response) => {
+// image list endpoint
+router.get("/", async (request, response) => {
   // Get all images for a user
 
   const userRef = db.collection("users").doc(request.user.email);
