@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const db = require("../services/db").db;
 
 const router = express.Router();
 
@@ -13,9 +14,15 @@ router.post(
   "/signup",
   passport.authenticate("signup", { session: false }),
   async (req, res, next) => {
+    const userRef = db.collection("users").doc(req.user.email);
+    await userRef.update({
+      name: req.body.name,
+    });
+
     res.json({
       message: "Signup successful",
-      user: req.user,
+      email: req.user.email,
+      name: req.body.name,
     });
   }
 );

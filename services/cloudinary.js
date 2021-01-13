@@ -16,6 +16,21 @@ const cloudinaryUpload = (image) => {
   });
 };
 
+const cloudinaryDelete = (image) => {
+  return new Promise(async (resolve, reject) => {
+    // destroying image
+    cloudinary.uploader
+      .destroy(image)
+      .then((result) => {
+        resolve({ id: result.public_id, url: result.secure_url });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 module.exports = {
   cloudinaryUpload,
+  cloudinaryDelete,
 };

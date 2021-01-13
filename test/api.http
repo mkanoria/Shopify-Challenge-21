@@ -2,7 +2,9 @@ POST http://localhost:5000/upload HTTP/1.1
 content-type: application/json
 
 {
-    "image": "pic.png"
+    "image": "pic.png",
+    "title": "mayank234",
+    "tags": ["profile", "person"]
 }
 
 ###
@@ -18,8 +20,9 @@ POST http://localhost:5000/user/signup HTTP/1.1
 content-type: application/json  
 
 {
-    "email": "abc12345",
-    "password": "test"
+    "password": "test",
+    "email": "testing",
+    "name": "mayank"
 }
 
 ###
@@ -29,10 +32,24 @@ POST http://localhost:5000/user/login HTTP/1.1
 content-type: application/json  
 
 {
-    "email": "abc123",
-    "password": "test"
+    "password": "test",
+    "email": "testing"
 }
 
 ###
-GET http://localhost:5000/test/profile?secret_token={{login.response.body.token}} HTTP/1.1
+GET http://localhost:5000/profile?secret_token={{login.response.body.token}} HTTP/1.1
+content-type: application/json  
+
+###
+POST http://localhost:5000/upload?secret_token={{login.response.body.token}} HTTP/1.1
+content-type: application/json  
+
+{
+    "image": "pic.png",
+    "title": "mayank234",
+    "tags": ["profile", "person"]
+}
+
+###
+DELETE http://localhost:5000/delete/p65bnbvzlxcoukvt7uer?secret_token={{login.response.body.token}} HTTP/1.1
 content-type: application/json  

@@ -51,7 +51,7 @@ cloudinary.config({
   api_secret: cloudinary_api_secret,
 });
 
-const { cloudinaryUpload } = require("./services/cloudinary");
+const { cloudinaryUpload, cloudinaryDelete } = require("./services/cloudinary");
 
 const db = require("./services/db").db;
 const images = require("./routes/image");
@@ -70,35 +70,6 @@ app.get("/", async (request, response) => {
   response.json({ message: "Hey! This is your server response!" });
 });
 
-// image upload API
-app.post("/upload", (request, response) => {
-  // collected image from a user
-  const data = {
-    image: request.body.image,
-  };
-
-  cloudinaryUpload(data.image)
-    .then(async (result) => {
-      console.log("Result is");
-      console.log(result.id);
-      console.log(result.url);
-      const docRef = db.collection("images").doc(result.id);
-
-      await docRef.set({
-        imageURL: result.url,
-      });
-      response.status(200).send({
-        result,
-      });
-    })
-    .catch((error) => {
-      response.status(500).send({
-        message: "failure",
-        error,
-      });
-    });
-});
-
 // Set up routes
 const user = require("./routes/user");
 
@@ -106,7 +77,7 @@ app.use("/user", user);
 
 const secure = require("./routes/secure");
 // Plug in the JWT strategy as a middleware so only verified users can access this route.
-app.use("/test", passport.authenticate("jwt", { session: false }), secure);
+app.use("/", passport.authenticate("jwt", { session: false }), secure);
 
 // Handle errors.
 app.use(function (err, req, res, next) {
