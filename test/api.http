@@ -6,9 +6,9 @@ POST http://localhost:5000/user/signup HTTP/1.1
 content-type: application/json  
 
 {
-    "password": "password",
-    "email": "mayank123",
-    "name": "mayank"
+  "password": "password",
+  "email": "testing@sample.com",
+  "name": "Mayank"
 }
 
 ###
@@ -19,11 +19,11 @@ content-type: application/json
 
 {
     "password": "password",
-    "email": "mayank123"
+    "email": "mayank456"
 }
 
 ###
-GET http://localhost:5000/images/profile?secret_token={{login.response.body.token}} HTTP/1.1
+GET http://localhost:5000/images?secret_token={{login.response.body.token}} HTTP/1.1
 content-type: application/json  
 
 ###
@@ -42,5 +42,5 @@ DELETE http://localhost:5000/images/{{upload.response.body.res.id}}?secret_token
 content-type: application/json  
 
 ###
-GET http://localhost:5000/images/list?secret_token={{login.response.body.token}} HTTP/1.1
+GET http://localhost:5000/images?secret_token={{login.response.body.token}} HTTP/1.1
 content-type: application/json

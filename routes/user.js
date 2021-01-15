@@ -2,20 +2,28 @@ const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const db = require("../services/db").db;
+const { body, validationResult } = require("express-validator");
 
 const router = express.Router();
 
 // define the home page route
 router.get("/", function (req, res) {
-  res.send({ status: "user/ endpoint is alive" });
+  res.send({ status: "ok" });
 });
 
 router.post(
   "/signup",
+  body("email").isEmail(),
+  body("password").isLength({ min: 5 }),
   passport.authenticate("signup", { session: false }),
   async (req, res, next) => {
-    const userRef = db.collection("users").doc(req.user.email);
-    await userRef.update({
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const userRef = db.collection("users").doc(req.body.email);
+    await userRef.set({
+      hashedPassword: req.user.hashedPassword,
       name: req.body.name,
     });
 
@@ -40,7 +48,7 @@ router.post("/login", async (req, res, next) => {
         const body = { _id: user._id, email: user.email };
         const token = jwt.sign({ user: body }, "TOP_SECRET");
 
-        return res.json({ token });
+        return res.json({ status: "Successful", token });
       });
     } catch (error) {
       return next(error);

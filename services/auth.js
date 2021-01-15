@@ -18,16 +18,11 @@ passport.use(
       const userRef = db.collection("users").doc(email);
       const doc = await userRef.get();
       if (doc.exists) {
-        done("User already exists");
-        // done(null, false, { message: "User already exists" });
+        done({ status: 406, info: "User already exists" });
       } else {
         // Create new User with email
         const hashedPassword = await bcrypt.hash(password, 10);
-        const docRef = db.collection("users").doc(email);
-        await docRef.set({
-          hashedPassword: hashedPassword,
-        });
-        return done(null, { email: email });
+        return done(null, { hashedPassword: hashedPassword });
       }
     }
   )

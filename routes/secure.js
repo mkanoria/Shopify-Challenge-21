@@ -7,11 +7,9 @@ const {
 const firebase = require("firebase");
 const db = require("../services/db").db;
 
-router.get("/profile", (req, res, next) => {
+router.get("/health", (req, res) => {
   res.json({
-    message: "You made it to the secure route",
-    user: req.user,
-    token: req.query.secret_token,
+    message: "Successful!",
   });
 });
 
@@ -39,7 +37,6 @@ router.post("/", (request, response) => {
       });
       // Update the image document with the required fields
       await imageRef.set(res);
-      console.log(res);
       response.status(200).send({
         res,
       });
@@ -56,7 +53,6 @@ router.post("/", (request, response) => {
 router.delete("/:imageID", async (request, response) => {
   // collecte imageID from a user
   const imageID = request.params.imageID;
-  console.log(imageID);
   // Verify that the image exists
   const userRef = db.collection("users").doc(request.user.email);
 
@@ -76,8 +72,7 @@ router.delete("/:imageID", async (request, response) => {
     });
     // Delete the image document
     const res = await db.collection("images").doc(imageID).delete();
-    console.log(res);
-    console.log("Deleted from Firestore");
+    // console.log("Deleted from Firestore");
   } else {
     return response
       .status(404)
@@ -86,7 +81,6 @@ router.delete("/:imageID", async (request, response) => {
 
   cloudinaryDelete(imageID)
     .then(async (result) => {
-      console.log(result);
       response.status(200).send({
         Status: "Deleted image",
       });
@@ -125,10 +119,9 @@ router.get("/", async (request, response) => {
     // console.log(imageRes.data());
     if (imageRes.exists) {
       res.images.push(imageRes.data());
-      console.log("HERE");
     }
   }
-  console.log("RES", res);
+
   response.status(200).send({
     ...res,
   });
