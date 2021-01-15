@@ -60,7 +60,7 @@ The tests can be found under the `test` directory, with two separate files for `
 Run the tests using `npm run test`
 
 Output from tests
-![Test Output](screenshots/test.png "Test Output")
+![Test Output](screenshots/test.png)
 
 
 # TODO
