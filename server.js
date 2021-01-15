@@ -20,7 +20,6 @@ cloudinary.config({
 });
 
 // Set up routes
-// const images = require("./routes/image");
 const user = require("./routes/user");
 // Set up secure routes
 const secure = require("./routes/secure");
@@ -30,7 +29,6 @@ const secure = require("./routes/secure");
 app.use("/images", passport.authenticate("jwt", { session: false }), secure);
 
 // Use Express routes
-// app.use("images/", images);
 app.use("/user", user);
 
 app.get("/", async (_, response) => {
