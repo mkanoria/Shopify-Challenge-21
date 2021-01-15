@@ -44,7 +44,7 @@ describe("Test Image Endpoints", async () => {
 
   describe("Image Upload Endpoints", () => {
     const imagePayload = {
-      image: "pic.png",
+      image: "test/images/pic.png",
       title: "sample title",
       tags: ["profile", "person"],
     };
