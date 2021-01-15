@@ -22,7 +22,7 @@ cloudinary.config({
 // Set up routes
 const user = require("./routes/user");
 // Set up secure routes
-const secure = require("./routes/secure");
+const secure = require("./routes/images");
 
 // Plug in the JWT strategy as a middleware so only verified users can access this route.
 // Set up passport for auth
