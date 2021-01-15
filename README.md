@@ -59,8 +59,8 @@ The project uses Mocha and Chai to test the endpoints
 The tests can be found under the `test` directory, with two separate files for `/images` and `/user`  
 Run the tests using `npm run test`
 
-Output from tests
-![](screenshots/test.png)
+Output from tests  
+![Test Output](screenshots/test.png)
 
 
 # TODO
