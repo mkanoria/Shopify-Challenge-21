@@ -34,6 +34,8 @@ The required details are
   }
 ```
 
+Screenshots of the requests and responses can be found [here!](screenshots/README.md)
+
 # Features
 
 This app allows for the following features -  
