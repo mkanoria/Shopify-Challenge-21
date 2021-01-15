@@ -120,4 +120,4 @@ uploads/
 pic.png
 
 # Ignore config files
-config/*
+config/keys.js
