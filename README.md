@@ -65,4 +65,10 @@ Output from tests
 ![Test Output](screenshots/test.png)
 
 
-# TODO
+# Next Steps
+
+- Add more unit and integration tests for a 100% coverage
+- Add Swagger docs for easier understanding of how the endpoints work
+- Allow uploading multiple images at once
+- Use Docker to containerize the project, allowing easier deployment through a CI/CD pipeline
+- Add Imagga for automated tagging of images

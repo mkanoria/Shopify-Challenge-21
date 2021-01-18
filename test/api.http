@@ -7,7 +7,7 @@ content-type: application/json
 
 {
   "password": "password",
-  "email": "testing@example.com",
+  "email": "testin23@example.com",
   "name": "Mayank"
 }
 
@@ -33,7 +33,7 @@ content-type: application/json
 
 {
     "image": "pic.png",
-    "title": "mayank234",
+    "title": "testing",
     "tags": ["profile", "person"]
 }
 
