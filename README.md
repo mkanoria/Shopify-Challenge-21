@@ -2,6 +2,17 @@
 
 This is my submission for the Shopify Backend and Production challenge for Summer 2021 roles
 
+## Contents
+  - [Setting up locally](#setting-up-locally)
+  - [Screenshots](#screenshots)
+  - [Features](#features)
+  - [User Flow](#user-flow)
+  - [Testing](#testing)
+  - [Next Steps](#next-steps)
+
+
+# Setting up locally
+
 To set up the code locally you will require -
 
 ```
@@ -11,7 +22,7 @@ To set up the code locally you will require -
 ```
 
 To run the code locally, follow the steps below  
-1. Run `git clone [repo]`  
+1. Run `git clone https://github.com/mkanoria/Shopify-Challenge-21.git`  
 2. `cd` into the project repository  
 3. Run `npm install` to install all the required dependencies
 4. Run `npm start` to run the server (This starts listening on `http://localhost:5000/` by default)
@@ -33,6 +44,7 @@ The required details are
     measurementId: "YOUR INFO",
   }
 ```
+# Screenshots
 
 Screenshots of the requests and responses can be found [here!](screenshots/README.md)
 
